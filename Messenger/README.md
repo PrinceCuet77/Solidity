@@ -7,6 +7,9 @@
     - [Strings \& Bytes](#strings--bytes)
     - [Address Types](#address-types)
     - [`Msg.Sender` Object](#msgsender-object)
+    - [Writing And Reading Functions - View Vs Pure](#writing-and-reading-functions---view-vs-pure)
+    - [Constructor](#constructor)
+    - [Summary](#summary)
 
 # Solidity
 
@@ -36,7 +39,7 @@
 - Default value is `false`
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.14;
 
@@ -57,7 +60,7 @@ contract ExampleBoolean {
 - If I initialize variable with `0` or default value then extra gas is needed
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.14;
 
@@ -81,7 +84,7 @@ contract ExampleUint {
 - For example, this can become problematic, if I store a token-balance in a variable and decrement it without checking.
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 // Version: 0.7.0
 pragma solidity 0.7.0;
@@ -103,7 +106,7 @@ contract ExampleWrapAround {
 - But I can still enforce this behavior with an `unchecked` block.
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 // Version: 0.8.15
 pragma solidity 0.8.15;
@@ -133,7 +136,7 @@ contract ExampleWrapAround {
 - So, use Events instead
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.15;
 
@@ -150,7 +153,7 @@ contract ExampleStrings {
 - There is still a way to compare two strings: by comparing their `keccak256` hashes.
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.15;
 
@@ -177,9 +180,10 @@ contract ExampleStrings {
 - Ethereum supports transfer of Ether and communication between Smart Contracts.
 - Addresses can be stored in Smart Contracts and can be used to transfer Ether from the Smart Contract to to an address stored in a variable.
 - A variable of the type address holds 20 bytes.
+- Address has a member named `balance` in `Wei` form
 
 ```js
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.15;
 
@@ -191,7 +195,7 @@ contract ExampleAddress {
   }
 
   function getAddressBalance() public view returns(uint) {
-    return someAddress.balance;
+    return someAddress.balance; // in 'wei' form
   }
 }
 ```
@@ -210,3 +214,99 @@ contract ExampleAddress {
 - It is used to provide information about the blockchain or the transaction.
 - Properties are `msg.sender` & `msg.value`
 - `msg.sender` contains the address of the whoever initiated the current contract call.
+
+```js
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.15;
+
+contract ExampleMsgSender {
+  address public someAddress;
+
+  function updateSomeAddress() public {
+    someAddress = msg.sender;
+  }
+}
+```
+
+- `someAddress` will magically have your address.
+- Because in `msg.sender` the address is stored who initiated the contract call.
+- As I initiated the contract call, `msg.sender` is stored my address.
+
+![msg.sender](photo/msg.sender.png)
+
+### Writing And Reading Functions - View Vs Pure
+
+- Modifying the state costs gas
+- It's a concurrent operation that requires mining and doesn't return any values
+- Two kinds of reading function
+  - **view:**
+    - Accessing state/storage variables
+    - Access the variables outside of the scope
+    - But I can't write them
+  - **pure:**
+    - Not accessing state/storage variables
+    - Access other variables
+    - Also access other `pure` functions
+- Create a state-modifying writing function
+
+```js
+//SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.15;
+
+contract ExampleViewPure {
+  uint public myStorageVariable;
+
+  // 'view'
+  function getMyStorageVariable() public view returns(uint) {
+    return myStorageVariable;
+  }
+
+  // 'pure'
+  function getAddition(uint a, uint b) public pure returns(uint) {
+    return a + b;
+  }
+}
+```
+
+### Constructor
+
+- It is automatically called during Smart Contract deployment
+- And it can never be called again after that.
+
+```js
+//SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.15;
+
+contract ExampleConstructor {
+  address public myAddress;
+
+  // constructor
+  constructor(address _someAddress) {
+    myAddress = _someAddress;
+  }
+
+  function setMyAddress(address _myAddress) public {
+    myAddress = _myAddress;
+  }
+
+  function setMyAddressToMsgSender() public {
+    myAddress = msg.sender;
+  }
+}
+```
+
+### Summary
+
+- All variables are initilized by default
+- There are no `null` or `undefined`
+- Default values of `uint`, `int` is `0`
+- Default values of `bool` is `0`
+- Default values of `string` is `0`
+- Public variables generate a getter with the name of the variable
+- Reference types need a memory location (memory/storage)
+- Fixed points are not implemented yet
+
+![Good practice](photo/fixed-points.png)
