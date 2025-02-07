@@ -114,7 +114,7 @@
 
 ## Payable Modifier And `msg.value`
 
-- To receive Eth, I need to add the `payable` modifier
+- To receive Eth, I need to add the `payable` modifier in the function
 - `payable` modifier tells solidity that the function is expecting eth to receive
 - The msg-object contains information about the current message with the smart contract.
 - It's a global variable that can be accessed in every function.
@@ -131,21 +131,87 @@ contract SampleContract {
     if(msg.value == 1 ether) {
       myString = _newString;
     } else {
-      payable(msg.sender).transfer(msg.value);
+      payable(msg.sender).transfer(msg.value); // Send back other value except 1 ether
     }
   }
 }
 ```
 
 - See that every time you send 1 eth, you can update the string. But if you send less or more, you just get refunded.
+- _Note:_
+  - Every address variable has `transfer` function
+  - Before sending the value, I have to wrap it using `payable`
+  - `ether` is a global variable
+- _Process:_
+  - I can send the `ether` to the smart contract from my account
+  - It can store that `ether` on it
+  - If I send not equal to `1 ether`, then it will send the `ether`/`Gwei`/`wei` to me whatever I send before
 
 ## Fallback And Receive
 
-- A
+- A value transfer without any kind of data then `receive` function will be called
+- Otherwise, if there is a call-data, it will need a `fallback` function
+- In `fallback`, `payable` is optional
+  - If I want to call a function which is not present, then the `fallback` will be called
+  - If I want that `fallback` function to also be able to receive any value, then need to add `payable` modifier
+
+```js
+//SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.15;
+
+contract SampleFallback {
+  uint public lastValueSent;
+  string public lastFunctionCalled;
+
+  receive() external payable {
+    lastValueSent = msg.value;
+    lastFunctionCalled = "receive";
+  }
+
+  fallback() external payable {
+    lastValueSent = msg.value;
+    lastFunctionCalled = "fallback";
+  }
+}
+```
+
+- If I have no `receive` function, then call-data with value or only value will be called `fallback`
+- But `fallback` must be `payable`
 
 ## Section Summary
 
-- A
+- Writing Txn
+  - Need to send a transaction
+  - Need to provide gas price
+  - Need to mined by miner
+- Reading Txn
+  - From the local cache
+  - But need to pay gas
+  - Pay the gas for yourself
+- `public`
+  - Can be called internally & externally
+- `private`
+  - Only for the contract itself
+  - Not externally reachable
+  - & not via derived contracts
+- `external`
+  - Can be called from other contracts
+  - Can be called externally
+- `internal`
+  - Only from the contract itself
+  - & from the derived contracts
+  - Can't be invoked by a transaction
+- I can't completely avoid receiving ether
+- Miner reward or self-destruct (address) will forcefully credit ether
+- I can only rely on `2300` gas for `fallback` function
+- `_contractAddress.transfer(1 ether)` - send only `2300` gas along
+- Forcefully prevent contract execution if called with contract data - `require(msg.data.length == 0)`
+- Global msg-object contains a value property (in `wei`)
+- Address A -> Contract A -> Contract B
+- ^^0.5 ETH^^^^^0.3 Wei
+- Then in Contract A, msg.value will be `0.5 ETH`
+- In Contract B, msg.value will be `0.3 Wei`
 
 ## The Smart Money Implementation
 
