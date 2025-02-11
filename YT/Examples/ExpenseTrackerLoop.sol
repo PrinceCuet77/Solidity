@@ -24,13 +24,20 @@ contract ExpenseTrackerLoop {
   }
 
   function addExpense(string memory _description, uint _amount) public {
+    // Use positional approach
     expenses.push(Expense(msg.sender, _description, _amount));
+
+    // Use named approach
+    // expenses.push(Expense({
+    //   user: msg.sender,
+    //   description: _description,
+    //   amount: _amount
+    // }));
   }
 
   function getTotalExpenses(address _user) public view returns (uint) {
     // Your code here
     uint256 totalExpenses;
-
     for(uint i = 0; i < expenses.length; i++){
       if(expenses[i].user == _user){
         totalExpenses += expenses[i].amount;

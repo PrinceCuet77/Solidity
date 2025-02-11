@@ -9,7 +9,7 @@
     - [`modifier`](#modifier)
   - [Events](#events)
   - [Loop](#loop)
-  - [Interface](#interface)
+  - [Inheritance](#inheritance)
   - [Inherit Ownable from OpenZeppelin](#inherit-ownable-from-openzeppelin)
   - [Contract to Contract Interaction](#contract-to-contract-interaction)
 
@@ -28,7 +28,7 @@
 
 ![Function](Photo/function.png)
 
-- If I **modify** the state variable then use only `public`
+- If I **modify** the state variable then use nothing
 
 ```js
 contract Calculator {
@@ -40,7 +40,7 @@ contract Calculator {
 }
 ```
 
-- If I **don't modify** the declared contract variable then use `public view`
+- If I **don't modify** the declared contract variable but only use that variable then use `view`
 
 ```js
 contract Calculator {
@@ -49,6 +49,19 @@ contract Calculator {
   function add(uint256 num) public view {
     return result;
   }
+}
+```
+
+- If neither read nor modify state, use `pure`
+
+```js
+function countUp(uint limit) public pure returns(uint) {
+  uint sum = 0;
+  for (uint i = 1; i <= limit; i++) {
+    sum += i;
+  }
+
+  return sum;
 }
 ```
 
@@ -164,7 +177,7 @@ contract SimpleToken {
   uint256 public maxPerMint = 3;
 
   function mint(uint256 amount) public {
-    require(amount <= maxPerMint>, "No more then 3 allowed");
+    require(amount <= maxPerMint, "No more then 3 allowed");
 
     // ...continue
     _mint(amount);
@@ -251,7 +264,7 @@ function countUp(uint limit) public pure returns(uint) {
 }
 ```
 
-## Interface
+## Inheritance
 
 - Take the behavior or functionality from the other contract or class
 
@@ -307,7 +320,7 @@ contract Twitter is Ownable {
 }
 ```
 
-- After compilation, I can found out some extra functionality in Remix workspace
+- After compilation, I can found out some extra functionality in Remix workspace which comes from `OpenZeppelin`
 
 ## Contract to Contract Interaction
 
@@ -319,6 +332,6 @@ contract Twitter is Ownable {
 
 ![Interface](Photo/interface.png)
 
-- So any other contract, use the `IContractA` to communicate with `ContractA`
+- So any other contract, use the `IContractA` in the `constructor` function to communicate with `ContractA`
 - See the `Interface/Game.sol` & `Interface/User.sol` files
 - And must see the final output of TweeterDApp in `TweeterDApp/Tweeter.sol` & `TweeterDApp/User.sol` files

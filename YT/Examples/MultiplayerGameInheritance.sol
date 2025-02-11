@@ -17,7 +17,7 @@ contract MultiplayerGameInheritance {
 }
 
 // Game contract inheriting from MultiplayerGame
-contract Game is MultiplayerGame{
+contract Game is MultiplayerGameInheritance{
   string public gameName;
   uint256 public playerCount;
 
