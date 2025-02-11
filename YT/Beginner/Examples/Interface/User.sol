@@ -20,5 +20,21 @@ contract User {
     newPlayer.playerAddress = userAddress;
     newPlayer.username = username;
     newPlayer.score = 0;
+
+    // Alternate way
+    // Player memory newPlayer = Player({
+    //   playerAddress: userAddress,
+    //   username: username,
+    //   score: 0
+    // });
   }
 }
+
+// Instruction (MUST):
+// 1. First deploy `User` smart contract
+// 2. Then deploy `Game` smart contract with the address of `User` smart contract
+
+// What will be happened? (BE CAREFULL)
+// 1. Flow is `Game` -> `User`
+// 2. In `Game` contract, `msg.sender` means the sender address
+// 3. In `User` contract, `msg.sender` means the `Game` contract address

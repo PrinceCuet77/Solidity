@@ -1,4 +1,4 @@
-- [Learning Solidity from YT](#learning-solidity-from-yt)
+- [Learning Solidity from YT as A Beginner](#learning-solidity-from-yt-as-a-beginner)
   - [Variables](#variables)
     - [`uint` ranges:](#uint-ranges)
     - [Function:](#function)
@@ -13,7 +13,7 @@
   - [Inherit Ownable from OpenZeppelin](#inherit-ownable-from-openzeppelin)
   - [Contract to Contract Interaction](#contract-to-contract-interaction)
 
-# Learning Solidity from YT
+# Learning Solidity from YT as A Beginner
 
 - [YT Video Link](https://www.youtube.com/watch?v=AYpftDFiIgk)
 - [Github Repo](https://github.com/NazaWEb/ultimate-solidity-course-for-complete-beginners)

@@ -32,7 +32,7 @@ contract Twitter is Ownable {
     uint256 timestamp;
     uint256 likes;
   }
-  mapping(address => Tweet[] ) public tweets;
+  mapping(address => Tweet[]) public tweets;
   // profile contract defined here 
   IProfile profileContract;
 
@@ -48,6 +48,7 @@ contract Twitter is Ownable {
   }
 
   constructor(address _profileContract) {
+    // Connect two smart contracts
     profileContract = IProfile(_profileContract);
   }
 
@@ -60,11 +61,10 @@ contract Twitter is Ownable {
     for( uint i = 0; i < tweets[_author].length; i++){
         totalLikes += tweets[_author][i].likes;
     }
-
     return totalLikes;
   }
 
-  function createTweet(string memory _tweet) public  onlyRegistered {
+  function createTweet(string memory _tweet) public onlyRegistered {
     require(bytes(_tweet).length <= MAX_TWEET_LENGTH, "Tweet is too long bro!" );
 
     Tweet memory newTweet = Tweet({
@@ -81,7 +81,7 @@ contract Twitter is Ownable {
     emit TweetCreated(newTweet.id, newTweet.author, newTweet.content, newTweet.timestamp);
   }
 
-  function likeTweet(address author, uint256 id) external  onlyRegistered {  
+  function likeTweet(address author, uint256 id) external onlyRegistered {  
     require(tweets[author][id].id == id, "TWEET DOES NOT EXIST");
 
     tweets[author][id].likes++;
@@ -90,7 +90,7 @@ contract Twitter is Ownable {
     emit TweetLiked(msg.sender, author, id, tweets[author][id].likes);
   }
 
-  function unlikeTweet(address author, uint256 id) external  onlyRegistered {
+  function unlikeTweet(address author, uint256 id) external onlyRegistered {
     require(tweets[author][id].id == id, "TWEET DOES NOT EXIST");
     require(tweets[author][id].likes > 0, "TWEET HAS NO LIKES");
     
