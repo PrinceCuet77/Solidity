@@ -10,6 +10,8 @@
   - [Events](#events)
   - [Loop](#loop)
   - [Interface](#interface)
+  - [Inherit Ownable from OpenZeppelin](#inherit-ownable-from-openzeppelin)
+  - [Contract to Contract Interaction](#contract-to-contract-interaction)
 
 # Learning Solidity from YT
 
@@ -269,8 +271,54 @@ contract Parent {
 contract Child is Parent {
   uint256 public childData;
 
+  // Make a connection between two smart contract
   constructor(uint256 _childData) {
     childData = _childData;
   }
 }
 ```
+
+- Use `virtual` keyword
+- So, child contract must `override` that functionality
+- Use `super` to call the parent method
+- See `MultiplayerGameInheritance.sol`
+
+## Inherit Ownable from OpenZeppelin
+
+- Why use `OpenZeppelin`?
+  - Standard for smart contract industry
+  - Have some extra functionalities
+- Including `OpenZeppelin`:
+
+```js
+// Import
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+// Inheritance
+contract Twitter is Ownable {
+  // TBC
+
+  // Remove my own `onlyOwner` modifier
+
+  // Use `onlyOwner` from `OpenZeppelin`
+  function changeTweetLength(uint16 newTweetLength) public onlyOwner {
+    MAX_TWEET_LENGTH = newTweetLength;
+  }
+}
+```
+
+- After compilation, I can found out some extra functionality in Remix workspace
+
+## Contract to Contract Interaction
+
+- Contract interaction
+
+![Contract Interaction](Photo/contract-interaction.png)
+
+- Interface is like a blue print of any contract
+
+![Interface](Photo/interface.png)
+
+- So any other contract, use the `IContractA` to communicate with `ContractA`
+- See the `Interface/Game.sol` & `Interface/User.sol` files
+- And must see the final output of TweeterDApp in `TweeterDApp/Tweeter.sol` & `TweeterDApp/User.sol` files
