@@ -5,6 +5,7 @@
     - [Create Metadata For NFT Images](#create-metadata-for-nft-images)
     - [Upload Metadata in IPFS](#upload-metadata-in-ipfs)
   - [Build ERC-1155 Contract](#build-erc-1155-contract)
+  - [Build ERC-721A Contract](#build-erc-721a-contract)
 
 # Learning Solidity from YT as An Expert
 
@@ -118,4 +119,16 @@
     - How many NFTs I've minted so far
   - `Pausable` - Allow to pause the contract/mint
   - `Updatable URI` - Able to set a new URI for all token types.
--
+- I can see the smart contract in `Contracts/Web3BuildersERC1155.sol` file
+- Hit `release` to withdraw the balance according to the shares
+
+## Build ERC-721A Contract
+
+- Todo list:
+  - Add public mint function
+  - Add supply limit
+  - Add payment requirement
+  - ERC-721 vs ERC-721A
+  - Add withdraw function
+  - Add refund function
+- A
