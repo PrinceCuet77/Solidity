@@ -6,6 +6,8 @@
     - [Upload Metadata in IPFS](#upload-metadata-in-ipfs)
   - [Build ERC-1155 Contract](#build-erc-1155-contract)
   - [Build ERC-721A Contract](#build-erc-721a-contract)
+  - [Build ERC-20 Crypto Coin](#build-erc-20-crypto-coin)
+  - [Create a NFT Staking Contract](#create-a-nft-staking-contract)
 
 # Learning Solidity from YT as An Expert
 
@@ -131,4 +133,40 @@
   - ERC-721 vs ERC-721A
   - Add withdraw function
   - Add refund function
+- `ERC-721A` is an improved implementation of the `ERC-721`
+- Supports minting multiple tokens for close to the cost of one
+- `ERC721A` is an implementation of `IERC721` with significant gas savings for minting multiple NFTs in a single transaction.
+- In `ERC-721`, a person owns a NFT
+- Storing the data like
+
+![ERC-721 Data Storage](photo/ERC721-data-storage.png)
+
+- Data store in the memory like
+
+![ERC-721 Data Storage In Memory](photo/ERC721-data-store-in-memory.png)
+
+- Azuki implements that [ERC-721A](https://www.azuki.com/erc721a)
+- In `ERC-721A`, storing the data like
+
+![ERC721A Data Storage](photo/ERC721A-data-storage.png)
+
+- Data store in the memory like
+
+![ERC-721A Data Storage In Memory](photo/ERC721A-data-storage-in-memory.png)
+
+- Gas saving example
+
+![Gas Saving Example](photo/gas-saving-example.png)
+
+- I can see the smart contract in `Contracts/Web3BuildersERC721A.sol` file
+
+## Build ERC-20 Crypto Coin
+
 - A
+
+## Create a NFT Staking Contract
+
+- NFT staking is a process where NFT owners may receive compensation by locking their digital assets on a platform or protocol.
+- The compensation received from NFT staking can vary depending on the platform and the type of NFT.
+- Staking allows owners to receive compensation without having to sell their NFTs
+- 
