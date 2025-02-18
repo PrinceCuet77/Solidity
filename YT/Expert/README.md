@@ -169,4 +169,9 @@
 - NFT staking is a process where NFT owners may receive compensation by locking their digital assets on a platform or protocol.
 - The compensation received from NFT staking can vary depending on the platform and the type of NFT.
 - Staking allows owners to receive compensation without having to sell their NFTs
+- NFT staking has three parts:
+  - NFT contract
+  - Token for reward
+  - Staking contract
+- `immutable` means not changable
 - 
