@@ -61,12 +61,12 @@
 
 ![Private Key](photo/private-key.png)
 
-- _Step-3:_ Metamask uses ECDSA to create the public key
+- _Step-3:_ Metamask uses `ECDSA` to create the public key
 
 ![Creating Public Key](photo/creating-public-key.png)
 
 - _Step-4:_ From that public key, it creates the ethereum account
-- Ethereum Account is nothing but keccak hash of the last 20 bytes of the public key
+- Ethereum Account is nothing but `keccak` hash of the last `20` bytes of the public key
 
 ![Ethereum Account](photo/ethereum-account.png)
 
@@ -75,7 +75,7 @@
 
 ![Signed Transaction](photo/signed-transaction.png)
 
-- _Step-6:_ Another function is ECRecover (Elliptic Curve Recover)
+- _Step-6:_ Another function is `ECRecover` (Elliptic Curve Recover)
 - It takes the transaction details that were provided
 - It takes the r.s.v values from the transaction & re-create ethereum account
 
@@ -88,7 +88,7 @@
 - _Step-7_ Under metamask, they use 12 word mnemonic
 - Have multiple index to store the private key & public key
 - So, I can shift many ethereum account what I want
-- Seed phrase should me more private to recover the metamask account
+- Seed phrase should be more private to recover the metamask account
 
 ![Seed Phrase](photo/seed-phrase.png)
 
@@ -109,14 +109,23 @@
   - Update: higher gas free
   - Cancel: Send no data + to = from
 - If I send the difference transaction nonce, you add a new transaction to the transaction queue & it doesn't get mined unless the one with the lower nonce gets mined or canceled
-- If I send the transaction to myself with the same nonce, then I can cancel it
+- If I send the transaction to myself with the **same nonce**, then I can cancel it
 - When I have other transaction pending with a higher nonce, then cancel it first
+- Get the nonce of the pending transaction & enable custom nonce in the metamask
+
+![Get The Nonce And Enable Custom Nonce](photo/get-the-nonce-and-enable-custom-nonce.png)
+
+- Then send a transaction myself with the same nonce of pending transaction
+
+![Send Transaction To Myself With Same Nonce](photo/send-transaction-to-myself-with-same-nonce.png)
+
+- So, that transaction is mined earlier then previous pending transaction
 
 ## Payable Modifier And `msg.value`
 
 - To receive Eth, I need to add the `payable` modifier in the function
 - `payable` modifier tells solidity that the function is expecting eth to receive
-- The msg-object contains information about the current message with the smart contract.
+- The `msg` object contains information about the current message with the smart contract.
 - It's a global variable that can be accessed in every function.
 
 ```js
@@ -139,7 +148,7 @@ contract SampleContract {
 
 - See that every time you send 1 eth, you can update the string. But if you send less or more, you just get refunded.
 - _Note:_
-  - Every address variable has `transfer` function
+  - Every address variable has `transfer()` function
   - Before sending the value, I have to wrap it using `payable`
   - `ether` is a global variable
 - _Process:_
@@ -209,10 +218,10 @@ contract SampleFallback {
 - Forcefully prevent contract execution if called with contract data - `require(msg.data.length == 0)`
 - Global msg-object contains a value property (in `wei`)
 - Address A -> Contract A -> Contract B
-- ^^0.5 ETH^^^^^0.3 Wei
-- Then in Contract A, msg.value will be `0.5 ETH`
-- In Contract B, msg.value will be `0.3 Wei`
+- ^`0.5 ETH`^^`0.3 Wei`
+- Then in Contract A, `msg.value` will be `0.5 ETH`
+- In Contract B, `msg.value` will be `0.3 Wei`
 
 ## The Smart Money Implementation
 
-- A
+- Implemention will be found in `SendWithdrawMoney.sol` file

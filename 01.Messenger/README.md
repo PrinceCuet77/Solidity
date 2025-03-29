@@ -6,7 +6,7 @@
     - [Integer Rollover - SafeMath](#integer-rollover---safemath)
     - [Strings \& Bytes](#strings--bytes)
     - [Address Types](#address-types)
-    - [`Msg.Sender` Object](#msgsender-object)
+    - [`msg.sender` Object](#msgsender-object)
     - [Writing And Reading Functions - View Vs Pure](#writing-and-reading-functions---view-vs-pure)
     - [Constructor](#constructor)
     - [Summary](#summary)
@@ -65,7 +65,7 @@ contract ExampleBoolean {
 pragma solidity 0.8.14;
 
 contract ExampleUint {
-  uint256 public myUint; // 0 - (2^256)-1
+  uint256 public myUint; // 0 - (2^256)-1 (Gas saved)
   uint8 public myUint8 = 250;
 
   // Exponentiation is done with **
@@ -178,8 +178,8 @@ contract ExampleStrings {
 ### Address Types
 
 - Ethereum supports transfer of Ether and communication between Smart Contracts.
-- Addresses can be stored in Smart Contracts and can be used to transfer Ether from the Smart Contract to to an address stored in a variable.
-- A variable of the type address holds 20 bytes.
+- Addresses can be stored in Smart Contracts and can be used to transfer Ether from the Smart Contract to an address stored in a variable.
+- A variable of the type address holds `20` bytes.
 - Address has a member named `balance` in `Wei` form
 
 ```js
@@ -208,9 +208,9 @@ contract ExampleAddress {
   - But it cannot transfer the funds from another address.
   - Transferring Ether is fundamentally different than transferring ERC20 Tokens or NFTs
 
-### `Msg.Sender` Object
+### `msg.sender` Object
 
-- The msg-object is a special variables which exist in the global namespace
+- The `msg` object is a special variables which exist in the global namespace
 - It is used to provide information about the blockchain or the transaction.
 - Properties are `msg.sender` & `msg.value`
 - `msg.sender` contains the address of the whoever initiated the current contract call.
